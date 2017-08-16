@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
+import { QuotesService } from '../../services/quotes';
+import { Quote } from '../../data/quote.interface';
+import { QuotePage } from '../quote/quote';
 
 /**
  * Generated class for the FavouritesPage page.
@@ -15,11 +18,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class FavouritesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  quotes: Quote[];
+  constructor(private quoteService: QuotesService,
+              private modalCtrl: ModalController) {}
+
+  ionViewWillEnter() {
+    this.quotes = this.quoteService.getFavouriteQuotes();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad FavouritesPage');
+  onViewQuote(selectedQuote: Quote) {
+    const modal = this.modalCtrl.create(QuotePage, selectedQuote);
+    modal.present();
+    modal.onDidDismiss((remove: boolean) => {
+
+    });
   }
+
 
 }
