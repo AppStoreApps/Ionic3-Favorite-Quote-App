@@ -30,9 +30,20 @@ export class FavouritesPage {
     const modal = this.modalCtrl.create(QuotePage, selectedQuote);
     modal.present();
     modal.onDidDismiss((remove: boolean) => {
-
+      if (remove) {
+        this.onRemoveFromFavourites(selectedQuote);
+      }
     });
   }
 
+  onRemoveFromFavourites(selectedQuote: Quote) {
+    this.quoteService.removeQuoteFromFavouries(selectedQuote);
+    // this.quotes = this.quoteService.getFavouriteQuotes();
+    // Alternative approach to remove single quote from this.quotes array
+    const position = this.quotes.findIndex((quoteEl: Quote) => {
+      return quoteEl.id === selectedQuote.id;
+    });
+    this.quotes.splice(position, 1);
+  }
 
 }
